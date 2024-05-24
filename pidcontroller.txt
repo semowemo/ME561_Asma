@@ -22,12 +22,12 @@ if __name__ == "__main__":
     import random
 
     # PID controller coefficients
-    Kp = 1.0
-    Ki = 0.1
-    Kd = 0.05
+    Kp = 0.5
+    Ki = 0
+    Kd = 0
 
     # Setpoint that we want to achieve
-    setpoint = 50
+    setpoint = 20
 
     # Create a PID controller instance
     pid = PID(Kp, Ki, Kd, setpoint)
