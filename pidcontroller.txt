@@ -1,0 +1,51 @@
+
+
+class PID:
+    def __init__(self, Kp, Ki, Kd, setpoint=0):
+        self.Kp = Kp
+        self.Ki = Ki
+        self.Kd = Kd
+        self.setpoint = setpoint
+        self.previous_error = 0
+        self.integral = 0
+
+    def update(self, measured_value):
+        error = self.setpoint - measured_value
+        self.integral += error
+        derivative = error - self.previous_error
+        output = self.Kp * error + self.Ki * self.integral + self.Kd * derivative
+        self.previous_error = error
+        return output
+
+if __name__ == "__main__":
+    import time
+    import random
+
+    # PID controller coefficients
+    Kp = 1.0
+    Ki = 0.1
+    Kd = 0.05
+
+    # Setpoint that we want to achieve
+    setpoint = 50
+
+    # Create a PID controller instance
+    pid = PID(Kp, Ki, Kd, setpoint)
+
+    # Initial measured value
+    measured_value = 20
+
+    # Simulate a process
+    for _ in range(100):
+        # Get control signal from PID controller
+        control_signal = pid.update(measured_value)
+
+        # Simulate applying the control signal to the process
+        # For example, here we just add the control signal to the measured value
+        measured_value += control_signal + (random.random() - 0.5) * 2  # adding some noise
+
+        # Print the current state
+        print(f"Measured Value: {measured_value:.2f}, Control Signal: {control_signal:.2f}")
+
+        # Wait for a short period of time to simulate process delay
+        time.sleep(0.1)
